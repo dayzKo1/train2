@@ -1,0 +1,26 @@
+{
+  "name": "train2",
+  "version": "1.0.0",
+  "description": "git add --all git commit -m'20210706' git push -u origin master",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dayzKo1/train2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dayzKo1/train2/issues"
+  },
+  "homepage": "https://github.com/dayzKo1/train2#readme",
+  "devDependencies": {
+    "@babel/standalone": "^7.14.7",
+    "babel-cli": "^6.26.0",
+    "create-react-app": "^4.0.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
