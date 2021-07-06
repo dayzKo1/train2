@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../node_modules/react/umd/react.development.js"></script>
+    <script src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+    <script src="../node_modules/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script type="text/babel">
+        class ProductList extends React.Component {
+            products =
+                [{
+                    name: 'apple',
+                    price: 10.0
+                }, {
+                    name: 'banana',
+                    price: 10.0
+                }, {
+                    name: 'peach',
+                    price: 10.0
+                }]
+            render () {
+                const list = this.products.map((item,key)=> 
+                <li key = {key}>{item.name}{item.price}</li>
+                )
+                return <ul>
+                    {list}
+                    </ul>
+            }
+        }
+        class App extends React.Component {
+            render(){
+                return <div>
+                    <h2>Product List</h2>
+                    <ProductList/>
+                    </div>;
+            }
+        }
+        ReactDOM.render(
+            <App />,
+            document.getElementById('container')
+        );
+    </script>
+</body>
+
+</html>

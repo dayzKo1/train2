@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../node_modules/react/umd/react.development.js"></script>
+    <script src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+    <script src="../node_modules/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script type="text/babel">
+        class BoilingVedict extends React.Component {
+            render() {
+                const { celsius } = this.props;
+                if (celsius >= 100) {
+                    return <p>水已沸腾</p>
+                }
+                return <p>水未沸腾</p>
+            }
+        }
+        class Calculator extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { temperature: '' };
+            }
+            handleChange = (e) => {
+                this.setState({temperature: e.target.value});
+            }
+            render() {
+                const { temperature } = this.state;
+                return <fieldset>
+                    <legend>输入摄氏温度</legend>
+                    <input type="text" value={temperature} onChange=
+                    {this.handleChange} />
+                    <BoilingVedict celsius={temperature} />
+                </fieldset>
+            }
+        }
+        class App extends React.Component {
+            render() {
+                return <div>
+                    <Calculator />
+                </div>;
+            }
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.getElementById('container')
+        );
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../node_modules/react/umd/react.development.js"></script>
+    <script src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+    <script src="../node_modules/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="container"> </div>
+    <!--state-->
+    <script type="text/babel">
+        class Clock extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { date: new Date() };
+                setInterval(() => {
+                    this.setState({ date: new Date() });
+                }, 1000);
+            }
+            render() {
+                return <div>
+                    <h1>Time for now</h1>
+                    <h2>It's {this.state.date.toLocaleTimeString()}</h2>
+                </div>
+            }
+        }
+        class App extends React.Component {
+            render() {
+                return <div>
+                    <Clock />
+                    <Clock />
+                    <Clock />
+                </div>;
+            }
+        }
+        ReactDOM.render(
+            <App />,
+            document.getElementById('container')
+        );
+
+    </script>
+
+</body>
+
+</html>

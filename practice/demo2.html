@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../node_modules/react/umd/react.development.js"></script>
+    <script src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+    <script src="../node_modules/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="container1"></div>
+    <div id="container2"></div>
+    <div id="container3"></div>
+
+    <script type="text/babel">
+        function Welcome(props) {
+            return <h1>Hello,{props.name}</h1>;
+        }
+
+        ReactDOM.render(
+            <Welcome name="LHH1" />,
+            document.getElementById('container1')
+        );
+
+    </script>
+
+    <script type="text/babel">
+        function Welcome(props) {
+            return <h1>Hello,{props.name}</h1>;
+        }
+        function App() {
+            return (
+                <div>
+                    <Welcome name="LHH2" />
+                    <Welcome name="LHH3" />
+                    <Welcome name="LHH4" />
+                </div>
+            )
+        }
+        ReactDOM.render(
+            <App />,
+            document.getElementById('container2')
+        )
+    </script>
+
+    <script type="text/babel">
+        function Header(props) {
+            return <div className="header">Header</div>;
+        }
+        function Sidebar(props) {
+            return <div className="sidebar">Sidebar</div>;
+        }
+        function Content(props) {
+            return <div className="content">Content</div>;
+        }
+        function Footer(props) {
+            return <div className="footer">Footer</div>;
+        }
+        function App(props) {
+            return <div>
+                <Header>
+                </Header>
+                <Sidebar></Sidebar>
+                <Content></Content>
+                <Footer />
+            </div>;
+        }
+        ReactDOM.render(
+            <App />,
+            document.getElementById('container3')
+        );
+    </script>
+
+</body>
+
+</html>

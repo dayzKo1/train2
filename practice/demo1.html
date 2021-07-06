@@ -13,12 +13,50 @@
 
 <body>
 
-    <div id="example"></div>
+    <!-- <div id="example"></div> -->
+
+    <div id="container"></div>
+    <!--函数组件-->
     <script type="text/babel">
+        // ReactDOM.render(
+        //     <h1>Hello, world!</h1>,
+        //     document.getElementById('example')
+        // );
+
+        // function tick() {
+        //     const element = (
+        //         <div>
+        //             <h1>Hello,World!</h1>
+        //             <h2>It is {new Date().toLocaleTimeString()}.</h2>
+        //         </div>
+        //     );
+        //     ReactDOM.render(
+        //         element,
+        //         document.getElementById('container')
+        //     )
+        // }
+        // setInterval(tick, 1000);
+    </script>
+    <!--class组件-->
+    <script type="text/babel">
+        class Clock extends React.Component {
+            render() {
+                return <div>
+                    <h1>Hello,World!</h1>
+                    <h2>It is {this.props.date.toLocaleTimeString()}</h2>
+                </div>
+            }
+        }
+        class App extends React.Component {
+            render() {
+                return <Clock date={new Date()} />;
+            }
+        }
         ReactDOM.render(
-            <h1>Hello, world!</h1>,
-            document.getElementById('example')
+            <App />,
+            document.getElementById('container')
         );
+
     </script>
 
 </body>
