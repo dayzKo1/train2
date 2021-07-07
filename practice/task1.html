@@ -9,6 +9,7 @@
     <script src="../node_modules/react/umd/react.development.js"></script>
     <script src="../node_modules/react-dom/umd/react-dom.development.js"></script>
     <script src="../node_modules/@babel/standalone/babel.min.js"></script>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -25,14 +26,36 @@
         class Content extends React.Component {
             render() {
                 return (
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        <div style={{ display: 'flex', flex: 1, backgroundColor: '#41a2e6' }}>
-                            {this.props.left}
+                <div style={{ display: 'flex',flexDirection: 'column' }}>
+                    <div style={{ display: 'flex',flexDirection: 'row' }}>
+                        <div style={{ display: 'flex',flex:1,backgroundColor: '#41a2e6' }}>
+                            {this.props.children}
                         </div>
-                        <div style={{ display: 'flex', flex: 3, backgroundColor: '#1f90e6' }}>
-                            {this.props.right}
+                        <div style={{ display: 'flex',flex:1,backgroundColor: '#1f90e6' }}>
+                            {this.props.children}
+                        </div>
+                        <div style={{ display: 'flex',flex:1,backgroundColor: '#41a2e6' }}>
+                            {this.props.children}
+                        </div>
+                        <div style={{ display: 'flex',flex:1,backgroundColor: '#1f90e6' }}>
+                            {this.props.children}
                         </div>
                     </div>
+                    <div style={{ display: 'flex',flexDirection: 'row' }}>
+                        <div style={{ display: 'flex',flex:1,backgroundColor: '#41a2e6' }}>
+                            {this.props.children}
+                        </div>
+                        <div style={{ display: 'flex',flex:1,backgroundColor: '#1f90e6' }}>
+                            {this.props.children}
+                        </div>
+                        <div style={{ display: 'flex',flex:1,backgroundColor: '#41a2e6' }}>
+                            {this.props.children}
+                        </div>
+                        <div style={{ display: 'flex',flex:1,backgroundColor: '#1f90e6' }}>
+                            {this.props.children}
+                        </div>
+                    </div>
+                </div>
                 )
             }
         }
@@ -43,13 +66,37 @@
                 </div>
             }
         }
+        class RepoList extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = { repos: [] }
+            }
+            async componentDidMount() {
+                const res = await axios.get(
+                    'https://api.github.com/search/repositories?q=stars:%3E1&sort=stars&order=desc&type=Repositories');
+                console.log('res', res.data)
+                this.setState({
+                    repos: res.data.items
+                });
+            }
+            render() {
+                const list = this.state.repos.map((item, key) => <li key={item.id}>{item.name}</li>);
+                return <ul>
+                    {list[1]}
+                </ul>
+            }
+        }
         class App extends React.Component {
             render() {
                 return <div>
                     <Header>
                         <h2 style={{ textAlign: 'center' }}>Github Hot</h2>
                     </Header>
-                    <Content left={<h2>菜单</h2>} right={<h2>内容</h2>} />
+
+                    <Content>
+                        <RepoList />
+                        </Content>
+                   
                     <Footer>
                         <span>版权所有&copy;lhh</span>
                     </Footer>
