@@ -11,12 +11,14 @@
     <script src="../node_modules/@babel/standalone/babel.min.js"></script>
     <script src="../node_modules/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="css/font-awesome.min.css">
+
 </head>
 
 <body>
     <div id="container"></div>
 
     <script type="text/babel">
+
         class Header extends React.Component {
             render() {
                 return <div style={{ backgroundColor: '#80bde8', overflow: 'hidden' }}>
@@ -39,16 +41,26 @@
             }
         }
         class RepoList extends React.Component {
+
             constructor(props) {
                 super(props)
                 this.state = { repos: [] }
             }
+
             async componentDidMount() {
-                const res = await axios.get(
-                    'https://api.github.com/search/repositories?q=stars:%3E1&sort=stars&order=desc&type=Repositories');
+
+                var language = window.location.href.split('=')[1] || 'none';
+                var url = `https://api.github.com/search/repositories?q=stars:%3E1&sort=stars&order=desc&type=Repositories`
+              
+                if(language!='none'){
+                    url = 'https://api.github.com/search/repositories?q=stars:%3E1+language:'+language+'&sort=stars&order=desc&type=Repositories'
+                }
+
+                const res = await axios.get(url);
                 this.setState({
                     repos: res.data.items
                 });
+
             }
 
             render() {
@@ -56,28 +68,29 @@
                 const list = this.state.repos
                     .map(
                         (item, key) =>
-                            <div key={item.id} style={{ display: 'flex', backgroundColor: '#ebebeb', marginBottom: 10, marginTop: 10, width:400 }}>
+                            <div key={item.id} style={{ display: 'flex', backgroundColor: '#ebebeb', marginBottom: 10, marginTop: 30, width: 400 }}>
                                 <ul style={{ listStyle: 'none' }}>
                                     <span style={{ textAlign: 'center' }}>
-                                        <h1>#{i++}</h1>
+                                        <h1 style={{ fontSize: 60 }}>#{i++}</h1>
                                         <img style={{ width: 320 }} src={item.owner.avatar_url} />
-                                        <li style={{ fontSize: 20, color: 'red' }}>{item.name}</li>
+                                        <li style={{ fontSize: 35, color: 'red' }}>{item.name}</li>
                                     </span>
                                     <span style={{}}>
-                                        <li><i style={{ color: '#ffbf74',width:20,height:20,paddingLeft:4,paddingRight:2}} class="fa fa-user"></i>{item.owner.login} </li>
-                                        <li><i style={{ color: '#ffd700',width:20,height:20,paddingLeft:2,paddingRight:3}} class="fa fa-star"></i>{item.stargazers_count} stars</li>
-                                        <li><i style={{ color: '#82c3f5',width:20,height:20,paddingLeft:5}} class="fa fa-code-fork"></i>{item.forks_count} forks</li>
-                                        <li><i style={{ color: '#f18a92',width:20,height:20,paddingLeft:0,paddingRight:4}} class="fa fa-warning"></i>{item.open_issues_count} open issues</li>
+                                        <li style={{ fontSize: 25 }}><i style={{ color: '#ffbf74', width: 20, height: 20, paddingLeft: 6, paddingRight: 9 }} class="fa fa-user"></i>{item.owner.login} </li>
+                                        <li style={{ fontSize: 25 }}><i style={{ color: '#ffd700', width: 20, height: 20, paddingLeft: 3, paddingRight: 10 }} class="fa fa-star"></i>{item.stargazers_count} stars</li>
+                                        <li style={{ fontSize: 25 }}><i style={{ color: '#82c3f5', width: 20, height: 20, paddingLeft: 8, paddingRight: 5 }} class="fa fa-code-fork"></i>{item.forks_count} forks</li>
+                                        <li style={{ fontSize: 25 }}><i style={{ color: '#f18a92', width: 20, height: 20, paddingLeft: 2, paddingRight: 11 }} class="fa fa-warning"></i>{item.open_issues_count} open issues</li>
                                     </span>
                                 </ul>
                             </div>
                     );
                 return <div style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        flexWrap: 'wrap',
-                        justifyContent: 'space-around',
-                    }}>
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-around',
+                    marginBottom: 20
+                }}>
                     {list}
                 </div>
             }
@@ -87,7 +100,16 @@
             render() {
                 return <div>
                     <Header>
-                        <h2 style={{ textAlign: 'center' }}>Github Hot-All</h2>
+                        <h2 style={{ textAlign: 'center' }}>Github Hot:
+
+                            <a style={{ textDecoration: 'none' }} href="http://127.0.0.1:5500/practice/test.html?language=none"> All </a>
+                            <a style={{ textDecoration: 'none' }} href="http://127.0.0.1:5500/practice/test.html?language=Javascript"> JavaScript </a>
+                            <a style={{ textDecoration: 'none' }} href="http://127.0.0.1:5500/practice/test.html?language=Ruby"> Ruby </a>
+                            <a style={{ textDecoration: 'none' }} href="http://127.0.0.1:5500/practice/test.html?language=Java"> Java </a>
+                            <a style={{ textDecoration: 'none' }} href="http://127.0.0.1:5500/practice/test.html?language=Css"> Css </a>
+                            <a style={{ textDecoration: 'none' }} href="http://127.0.0.1:5500/practice/test.html?language=Python"> Python </a>
+
+                        </h2>
                     </Header>
                     <Content>
                         <RepoList />
