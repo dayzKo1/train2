@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../node_modules/react/umd/react.development.js"></script>
+    <script src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+    <script src="../node_modules/@babel/standalone/babel.min.js"></script>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <script type="text/babel">
+        class Header extends React.Component {
+            render() {
+                return <div style={{ backgroundColor: '#80bde8', overflow: 'hidden' }}>
+                    {this.props.children}
+                </div>
+            }
+        }
+        class Content extends React.Component {
+            render() {
+                return (
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        justifyContent: 'space-around',
+                    }}>
+                        {this.props.children}
+                    </div>
+                )
+            }
+        }
+        class RepoList extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = { repos: [] }
+            }
+            async componentDidMount() {
+                const res = await axios.get(
+                    'https://api.github.com/search/repositories?q=stars:%3E1&sort=stars&order=desc&type=Repositories');
+                this.setState({
+                    repos: res.data.items
+                });
+            }
+
+            render() {
+                var i = 1
+                const list = this.state.repos
+                    .map(
+                        (item, key) =>
+                            <div key={item.id} style={{ display: 'flex', backgroundColor: '#ebebeb', marginBottom: 10, marginTop: 10, width:400 }}>
+                                <ul style={{ listStyle: 'none' }}>
+                                    <span style={{ textAlign: 'center' }}>
+                                        <h1>#{i++}</h1>
+                                        <img style={{ width: 320 }} src={item.owner.avatar_url} />
+                                        <li style={{ fontSize: 20, color: 'red' }}>{item.name}</li>
+                                    </span>
+                                    <span style={{}}>
+                                        <li><i style={{ color: '#ffbf74',width:20,height:20,paddingLeft:4,paddingRight:2}} class="fa fa-user"></i>{item.owner.login} </li>
+                                        <li><i style={{ color: '#ffd700',width:20,height:20,paddingLeft:2,paddingRight:3}} class="fa fa-star"></i>{item.stargazers_count} stars</li>
+                                        <li><i style={{ color: '#82c3f5',width:20,height:20,paddingLeft:5}} class="fa fa-code-fork"></i>{item.forks_count} forks</li>
+                                        <li><i style={{ color: '#f18a92',width:20,height:20,paddingLeft:0,paddingRight:4}} class="fa fa-warning"></i>{item.open_issues_count} open issues</li>
+                                    </span>
+                                </ul>
+                            </div>
+                    );
+                return <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        justifyContent: 'space-around',
+                    }}>
+                    {list}
+                </div>
+            }
+        }
+
+        class App extends React.Component {
+            render() {
+                return <div>
+                    <Header>
+                        <h2 style={{ textAlign: 'center' }}>Github Hot-All</h2>
+                    </Header>
+                    <Content>
+                        <RepoList />
+                    </Content>
+                </div>;
+            }
+        }
+        ReactDOM.render(
+            <App />,
+            document.getElementById('container')
+        );
+    </script>
+</body>
+
+</html>
