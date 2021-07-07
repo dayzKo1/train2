@@ -11,7 +11,8 @@
     <script src="../node_modules/@babel/standalone/babel.min.js"></script>
     <script src="../node_modules/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="css/font-awesome.min.css">
-
+    <script src="lib/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="lib/css/bootstrap.css">
 </head>
 
 <body>
@@ -48,19 +49,15 @@
             }
 
             async componentDidMount() {
-
                 var language = window.location.href.split('=')[1] || 'none';
                 var url = `https://api.github.com/search/repositories?q=stars:%3E1&sort=stars&order=desc&type=Repositories`
-              
-                if(language!='none'){
-                    url = 'https://api.github.com/search/repositories?q=stars:%3E1+language:'+language+'&sort=stars&order=desc&type=Repositories'
+                if (language != 'none') {
+                    url = 'https://api.github.com/search/repositories?q=stars:%3E1+language:' + language + '&sort=stars&order=desc&type=Repositories'
                 }
-
                 const res = await axios.get(url);
                 this.setState({
                     repos: res.data.items
                 });
-
             }
 
             render() {
@@ -68,11 +65,11 @@
                 const list = this.state.repos
                     .map(
                         (item, key) =>
-                            <div key={item.id} style={{ display: 'flex', backgroundColor: '#ebebeb', marginBottom: 10, marginTop: 30, width: 400 }}>
+                            <div key={item.id} style={{ display: 'flex', backgroundColor: '#ebebeb', marginBottom: 10, marginTop: 30, width: 350 }}>
                                 <ul style={{ listStyle: 'none' }}>
                                     <span style={{ textAlign: 'center' }}>
                                         <h1 style={{ fontSize: 60 }}>#{i++}</h1>
-                                        <img style={{ width: 320 }} src={item.owner.avatar_url} />
+                                        <img style={{ width: '88%'}} src={item.owner.avatar_url} />
                                         <li style={{ fontSize: 35, color: 'red' }}>{item.name}</li>
                                     </span>
                                     <span style={{}}>
