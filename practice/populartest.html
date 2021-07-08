@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../node_modules/react/umd/react.development.js"></script>
+    <script src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+    <script src="../node_modules/@babel/standalone/babel.min.js"></script>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <script src="js/jquery-3.6.0.js"></script>
+    <script src="lib/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="lib/css/bootstrap.css">
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <script type="text/babel">
+
+        import React from 'react'
+        import InfiniteScroll from 'react-infinite-scroller'
+        import axios from 'axios'
+        import qs from 'qs'
+        import './style.less'
+
+        const arr = ['a', 'b', 'c', 'd', 'e']
+        export default class extends React.PureComponent {
+            constructor(props) {
+                super(props)
+
+                this.state = {
+                    hasMore: true, // 是否开启下拉加载
+                    data: [], // 接受我每次的数据
+                    count: 0, //下拉加载
+                }
+
+                this.loadMoreData()
+            }
+            // 加载更多数据
+            loadMoreData = (page = 1) => {
+                // page 当前滚动到了第几页
+                const { data, count } = this.state
+                // 超过200条数据 不继续监听下拉事件
+                if (count && data.length >= count) {
+                    return false
+                }
+                // page 是当前请求第几页数据
+                // limit 每页我需要返回的数据条数
+                axios.post('https://blogs.zdldove.top/Home/Apis/listWithPage', qs.stringify({ page, limit: 20 }))
+                    .then(res => {
+                        this.setState({
+                            data: [...data, ...arr], //拼接每次加载的数据 arr是我自定义的数据
+                            count: res.data.result.count,
+                        }, () => {
+                            console.log(this.state) //查看数据是否已经改变
+                        })
+                    })
+                    .catch(err => console.log(err))
+            }
+
+            render() {
+                const { hasMore } = this.state
+
+                return (
+                    <div className="box">
+                        {/* 下拉加载 */}
+                        <InfiniteScroll
+                            initialLoad={false} // 不让它进入直接加载
+                            pageStart={1} // 设置初始化请求的页数
+                            loadMore={this.loadMoreData}  // 监听的ajax请求
+                            hasMore={hasMore} // 是否继续监听滚动事件 true 监听 | false 不再监听
+                            useWindow={false} // 不监听 window 滚动条
+                        >
+                            <div className="pages-hoc">
+                                {
+                                    this.state.data.map((value, key) => (
+                                        <p key={key}> {key} </p>
+                                    ))
+                                }
+                            </div>
+                        </InfiniteScroll>
+                    </div>
+                )
+            }
+        }
+    </script>
+</body>
+
+</html>
